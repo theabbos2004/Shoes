@@ -16,7 +16,7 @@ export default function NewDrops() {
             const number=screen?.width>1280 ? 5 : screen?.width>1024 ? 4: screen?.width>740?3:4
             setKicks(kicks.data?.documents.slice(0,number))
         }
-    },[])
+    },[screen?.width])
     useEffect(()=>{
         getKicksApp()  
     },[screen?.width,getKicksApp])
