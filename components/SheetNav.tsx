@@ -9,7 +9,7 @@ import { NavType } from '@/types'
 const SheetNav = () => {
   const {theme}=useContext(ThemeContext)
   return (
-    <SheetContent className="w-3/4" side={"left"}>
+    <SheetContent className="w-3/4 dark:bg-gray-400" side={"left"}>
         <SheetHeader>
           <SheetTitle className=' flex justify-center'>
             {
@@ -17,7 +17,7 @@ const SheetNav = () => {
                 <Logo height="22"/>
               )
               :(
-                <LogoDark height="22"/>
+                <LogoDark height="22" className="dark:text-gray-50"/>
               )
             }
           </SheetTitle>
@@ -28,7 +28,7 @@ const SheetNav = () => {
         <ul className='h-full flex gap-10 flex-col items-center justify-center'>
           {
             navList?.map((nav:NavType)=>(
-              <li key={nav.label}>{nav.label}</li>
+              <li key={nav.label} className='dark:text-gray-50'>{nav.label}</li>
             ))
           }
         </ul>

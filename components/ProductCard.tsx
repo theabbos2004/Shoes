@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 export default function ProductCard({ kick }: { kick: ProductCardType }) {
     return (
-      <div className="w-full h-full flex flex-col justify-between gap-3">
+      <Link href={`/product/${kick?.$id}`} className="w-full h-full flex flex-col justify-between gap-3">
         <div className="relative w-full aspect-square rounded-2xl overflow-hidden border-gray-50 border-[0.5rem]">
             {kick?.status && (
             <span
@@ -23,19 +23,17 @@ export default function ProductCard({ kick }: { kick: ProductCardType }) {
             src={kick?.imagesUrl[0]}
             fill
             priority
-            className="object-cover"
+            className="object-cover transition-transform duration-300 hover:scale-125"
             sizes="(max-width: 768px) 100vw, 
             (max-width: 1200px) 50vw, 
             33vw"
           />}
         </div>
         <h3 className="text-sm min-h-10 flex flex-col justify-center  text-black uppercase font-semibold line-clamp-2">{kick?.title}</h3>
-        <Link href={`/product/${kick?.$id}`}>
-          <Button className='w-full' variant={"secondary"}>
-            View Product - <span className='text-orange_1'>${kick?.price}</span>
-          </Button>
-        </Link>
-      </div>
+        <Button className='w-full' variant={"secondary"}>
+          View Product - <span className='text-orange_1'>${kick?.price}</span>
+        </Button>
+      </Link>
     );
   }
   

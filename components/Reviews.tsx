@@ -7,10 +7,12 @@ import ReviewsCard from './ReviewsCard'
 import { ThemeContext } from '@/context/theme-provider'
 import { getReviews } from '@/lib/actions/reviews'
 import { Query } from 'appwrite'
+import { useRouter } from 'next/navigation'
 
 export default function Reviews() {
     const { screen } = useContext(ThemeContext)
     const [reviews, setReviews] = useState<ReviewsType[]>()
+    const router=useRouter()
     useEffect(() => {
         (async () => {
             const reviewsRes = await getReviews({ condition: [Query.greaterThanEqual("star", 3)] })
@@ -26,7 +28,7 @@ export default function Reviews() {
             <TitleComponent
                 className='py-5'
                 title='Reviews'
-                leftElement={<Button variant={"primary"} >See All</Button>}
+                leftElement={<Button variant={"primary"} onClick={()=>router.push('/listing-page')}>See All</Button>}
             />
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
                 {
