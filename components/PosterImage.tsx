@@ -14,7 +14,7 @@ export default function  PosterImage() {
         (async ()=>{
             const advertisements = await getAdvertisements()
             const kick:ProductCardType=advertisements?.data?.documents[0]?.kick
-            let selectImage:string=advertisements?.data?.documents[0]?.kick?.imagesUrl[0]
+            const selectImage:string=advertisements?.data?.documents[0]?.kick?.imagesUrl[0]
             setKick(kick)
             setSelectImage(selectImage)
         })()
