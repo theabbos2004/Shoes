@@ -7,6 +7,7 @@ const config = {
       collactionKickId: process.env.NEXT_PUBLIC_COLLACTION_KICKS_ID!,
       collactionAdvertisementsId: process.env.NEXT_PUBLIC_COLLACTION_ADVERTISEMENTS_ID!,
       collactionReviewsId: process.env.NEXT_PUBLIC_COLLACTION_REVIEWS_ID!,
+      collactionAdvertisementsListingId: process.env.NEXT_PUBLIC_COLLACTION_ADVERTISEMENTS_Lisitng_ID!,
     },
   };
   

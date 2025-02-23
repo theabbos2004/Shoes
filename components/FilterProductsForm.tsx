@@ -18,10 +18,10 @@ import { useContext } from "react";
 import { ThemeContext } from "@/context/theme-provider";
 
 
-const sizes = [38, 39, 40, 41, 42, 43, 44, 45, 46, 47];
+const sizes = ["38", "39", "40", "41", "42", "43", "44", "45", "46", "47"];
 const colors = ["orange","red","blue","green","black","white"];
-const categories = ["Casual shoes", "Runners", "Hiking", "Sneaker", "Basketball", "Golf", "Outdoor"];
-const genders = ["Men", "Women"];
+const categories = ['running', 'sport'];
+const genders = ['men', 'women'];
  
 const getColorClasses = (color: string) => {
   switch (color) {
@@ -60,7 +60,7 @@ const FilterProducts=<T extends FieldValues>({handleSubmit,defaultValues,isFilte
       <div className={` ${isFilterCard && screen.width < 768 ?"fixed h-screen overflow-y-scroll top-0 left-0 z-[10] bg-gray-100 w-full":"md:block hidden"}`}>
         <div className="container mx-auto flex justify-between py-5 bg-gray-50 md:bg-transparent">
           <h1 className="font-bold text-xl">Filters</h1>
-          <XIcon className="md:hidden" onClick={colapseFilterCard}/>
+          <XIcon height={"1.25rem"} className="md:hidden" onClick={colapseFilterCard}/>
         </div>
         <form 
           className="container mx-auto"

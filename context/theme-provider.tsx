@@ -1,13 +1,14 @@
 'use client';
 
+import { screenType } from '@/types';
 import React, { createContext, useEffect, useState } from 'react';
 
 interface ValueType {
   theme: 'light' | 'dark',
   switchTheme:()=>Promise<'light' | 'dark'>,
-  screen:screeType
+  screen:screenType
 }
-interface screeType {width:number,height:number}
+
 export const ThemeContext = createContext<ValueType>({ theme: 'light',switchTheme:async ()=>'light',screen:{width: 0, height: 0}});
 
 export default function ThemeProvider({
@@ -16,7 +17,7 @@ export default function ThemeProvider({
   children: React.ReactNode;
 }) {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
-  const [screen, setScreen] = useState<screeType>({width: 0, height: 0});
+  const [screen, setScreen] = useState<screenType>({width: 0, height: 0});
 
   useEffect(() => {
     const storedTheme = (localStorage.getItem('theme') as 'light' | 'dark') || 'light';
@@ -28,8 +29,8 @@ export default function ThemeProvider({
     const handleScreen = () => {
       setScreen({ width: window.innerWidth, height: window.innerHeight });
     };
-    window.addEventListener("resize", handleScreen);
     handleScreen();
+    window.addEventListener("resize", handleScreen);
     return () => {
       window.removeEventListener("resize", handleScreen);
     };

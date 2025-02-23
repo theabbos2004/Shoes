@@ -1,7 +1,7 @@
 "use client"
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Button } from './ui/button'
-import { ProductCardType } from '@/types';
+import { ProductCardType, screenType } from '@/types';
 import ProductCard from './ProductCard';
 import TitleComponent from './TitleComponent';
 import { getKicks } from '@/lib/actions/product';
@@ -12,18 +12,18 @@ export default function NewDrops() {
     const [kicks,setKicks]=useState<ProductCardType[]>()
     const {screen}=useContext(ThemeContext)
     const router = useRouter()
-    const getKicksApp=useCallback(async ()=>{
+    const getKicksApp=useCallback(async (screen:screenType)=>{
         const kicks = await getKicks()
         if(kicks.success){
-            const number=screen?.width>1280 ? 5 : screen?.width>1024 ? 4: screen?.width>740?3:4
+            const number=screen?.width>1280 ? 5 : screen?.width>1024 ? 4: screen?.width>768?3:4
             setKicks(kicks.data?.documents.slice(0,number))
         }
-    },[screen?.width])
+    },[])
     useEffect(()=>{
-        getKicksApp()  
-    },[screen?.width,getKicksApp])
-    
-    
+        if(screen?.width){
+            getKicksApp(screen)
+        }
+    },[screen,getKicksApp])
   return (
     <section className='container mx-auto'>
         <div className='flex flex-col gap-5'>

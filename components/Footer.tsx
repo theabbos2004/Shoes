@@ -2,7 +2,7 @@ import React from 'react'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
 import { FacebookIcon, InstagramIcon, TelegramIcon, TikTokIcon} from '@/public/icons'
-import Image from 'next/image'
+import { Logo } from '@/public/images'
 export default function Footer() {
   return (
     <footer className=' container mx-auto'>
@@ -18,13 +18,7 @@ export default function Footer() {
                 </div>
                 <div className='pt-8 pb-5 w-2/4 flex justify-center items-center'>
                     <div className="relative w-3/4 aspect-[4/1] overflow-hidden h-auto">
-                        <Image 
-                            src="/images/Logo white.svg" 
-                            alt="Logo Dark 1" 
-                            fill
-                            className='object-contain'
-                            unoptimized
-                        />
+                        <Logo height="auto"/>
                     </div>
                 </div>
             </div>
@@ -73,13 +67,7 @@ export default function Footer() {
                 </ul>
                 <div className='h-24 sm:h-28 md:h-32 lg:h-48 xl:h-52 2xl:h-64 overflow-hidden'>
                     <div className="relative w-full aspect-[4/1] overflow-hidden h-auto">
-                        <Image 
-                            src="/images/Logo white.svg" 
-                            alt="Logo Dark 1" 
-                            fill
-                            className='object-contain'
-                            unoptimized
-                        />
+                        <Logo width="auto"/>
                     </div>
                 </div>
             </div>

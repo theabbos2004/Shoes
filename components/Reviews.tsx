@@ -7,33 +7,33 @@ import ReviewsCard from './ReviewsCard'
 import { ThemeContext } from '@/context/theme-provider'
 import { getReviews } from '@/lib/actions/reviews'
 import { Query } from 'appwrite'
-import { useRouter } from 'next/navigation'
 
 export default function Reviews() {
-    const { screen } = useContext(ThemeContext)
-    const [reviews, setReviews] = useState<ReviewsType[]>()
-    const router=useRouter()
-    useEffect(() => {
-        (async () => {
-            const reviewsRes = await getReviews({ condition: [Query.greaterThanEqual("star", 3)] })
-            if (reviewsRes?.success) {
-                const number = screen?.width > 1024 ? 3 : 2
-                setReviews(reviewsRes?.data?.documents.slice(0, number))
-            }
-        })()
-    }, [screen?.width])
+    const {screen}=useContext(ThemeContext)
+    const [reviews,setReviews]=useState<ReviewsType[]>()
+    useEffect(()=>{
+        if(screen?.width){
+            (async ()=>{
+                const reviewsRes=await getReviews({condition:[Query.greaterThanEqual("star", 3)]})
+                if(reviewsRes?.success){
+                    const number=screen?.width>1024 ? 3  : 2
+                    setReviews(reviewsRes?.data?.documents.slice(0,number))
+                }
+            })()
+        }
+    },[screen?.width])
   return (
     <section>
-        <div className='container mx-auto'>
+        <div className=' container mx-auto'>
             <TitleComponent
                 className='py-5'
                 title='Reviews'
-                leftElement={<Button variant={"primary"} onClick={()=>router.push('/listing-page')}>See All</Button>}
+                leftElement={<Button variant={"primary"} >See All</Button>}
             />
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
                 {
-                    reviews?.map((review) => (
-                        <ReviewsCard key={review?.$id} review={review} />
+                    reviews?.map((review)=>(
+                        <ReviewsCard key={review?.$id} review={review}/>
                     ))
                 }
             </div>

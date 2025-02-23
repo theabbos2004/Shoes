@@ -1,4 +1,8 @@
 
+export interface screenType {
+    width:number,
+    height:number
+}
 export interface NavType{
     label:string,
     route:string
@@ -76,9 +80,23 @@ export interface categoriesType {
 }
 
 export interface FilterValues{
-  sizes: number[];
+  sizes: string[];
   colors: string[];
   categories: string[];
   genders: string[];
   price: number[];
+};
+
+export interface AdvertisingCardType{
+    $collectionId?:string,
+    $createdAt?:string,
+    $databaseId?:string,
+    $id?:string,
+    $permissions?:string[],
+    $updatedAt?:string
+    title?: string;
+    discount?: string;
+    desc?: string;
+    image?: string;
+    isActive?:boolean,
 };

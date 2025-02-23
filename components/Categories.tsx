@@ -15,10 +15,12 @@ export default function Categories() {
     const {screen}=useContext(ThemeContext)
     const [categories,setCategories]=useState<{drop:categoriesType[]}[]>()
     useEffect(()=>{
-        (async ()=>{
-            const categories = await getCategories()
-            setCategories(setItemInBox(categories,screen?.width>1024? 3 : 2))
-        })()
+        if(screen?.width){
+            (async ()=>{
+                const categories = await getCategories()
+                setCategories(setItemInBox(categories,screen?.width>1024? 3 : 2))
+            })()
+        }
     },[screen?.width])
     const nextRef=useRef<HTMLButtonElement | null>(null);
     const previousRef=useRef<HTMLButtonElement | null>(null);
@@ -59,7 +61,7 @@ export default function Categories() {
                                                 <h1 className='text-2xl font-semibold line-clamp-2' >
                                                     {categorie?.title}
                                                 </h1>
-                                                <Link href={"/listing-page"}>
+                                                <Link href={"/listing-page"} as={"/listing-page"}>
                                                     <Button variant={"secondary"}><ArrowUpRight/></Button>
                                                 </Link>
                                             </div>
