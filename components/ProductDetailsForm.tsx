@@ -70,25 +70,55 @@ const ProductDetailsForm = <T extends FieldValues>({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-5">
-        <FormField
-          key={"index"}
-          control={form.control}
-          name={"color" as Path<T>}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className=" text-gray_1 font-bold capitalize">color</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  className="flex gap-3"
-                  onValueChange={(value) => field.onChange(value)}
-                >
-                  {data?.colors?.map(renderColorOptions)}
-                </RadioGroup>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="grid grid-cols-2">
+          <FormField
+            key={"index"}
+            control={form.control}
+            name={"color" as Path<T>}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className=" text-gray_1 font-bold capitalize">color</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    className="flex gap-3"
+                    onValueChange={(value) => field.onChange(value)}
+                  >
+                    {data?.colors?.map(renderColorOptions)}
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            key={"gender"}
+            control={form.control}
+            name={"gender" as Path<T>}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className=" text-gray_1 font-bold capitalize">Gender</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    className="flex gap-3"
+                    onValueChange={(value) => field.onChange(value)}
+                  >
+                    {data?.gender?.map((gender,index)=>(
+                      <Button
+                        key={index}
+                        variant={field.value === gender ? "primary" : "default"}
+                        onClick={() => field.onChange(gender)}
+                        type="button"
+                      >
+                        {gender}
+                      </Button>
+                    ))}
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <FormField
           key={"size"}
           control={form.control}
@@ -106,6 +136,31 @@ const ProductDetailsForm = <T extends FieldValues>({
                       type="button"
                     >
                       {size}
+                    </Button>
+                  ))}
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          key={"type"}
+          control={form.control}
+          name={"type" as Path<T>}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-gray_1 font-bold capitalize">Type</FormLabel>
+              <FormControl>
+                <div className="flex flex-wrap gap-3">
+                  {data?.types?.map((type, index) => (
+                    <Button
+                      key={index}
+                      variant={field.value === type ? "primary" : "default"}
+                      onClick={() => field.onChange(type)}
+                      type="button"
+                    >
+                      {type}
                     </Button>
                   ))}
                 </div>

@@ -8,6 +8,8 @@ import { getKick } from "@/lib/actions/product";
 import { ProductFormDetails, ProductFormType} from "@/lib/validation";
 import ProductDetailsForm from "@/components/ProductDetailsForm";
 import { useToast } from '@/hooks/use-toast'
+import { addToCart } from '@/lib/actions/cart'
+import { useUserContext } from '@/context/auth-provider'
 
 type PropsType={productId:string}
 const ProductDetailsImage: React.FC<React.HTMLAttributes<HTMLDivElement> & PropsType> = 
@@ -15,6 +17,7 @@ const ProductDetailsImage: React.FC<React.HTMLAttributes<HTMLDivElement> & Props
     const [kick,setKick]=useState<ProductCardType>()
     const [selectImage,setSelectImage]=useState<string>()
     const {toast }=useToast()
+    const {user}=useUserContext()
     useEffect(()=>{
         if(productId) {
             (async ()=>{
@@ -27,13 +30,25 @@ const ProductDetailsImage: React.FC<React.HTMLAttributes<HTMLDivElement> & Props
         } 
     },[productId])
     const onSubmit= async (
-        kick: ProductFormType
+        kickForm: ProductFormType
       ): Promise<{ success: boolean; error?: string }> => {
         try {
-            toast({
-                title: "Success",
-                description: `color:${kick?.color}, size:${kick?.size}`,
-              })
+            if(kick && user){
+                const addToCartRes=await addToCart(kickForm,kick,user?.$id)
+                if(addToCartRes.error){
+                    throw new Error(addToCartRes.error)
+                }
+                toast({
+                    title: "Success",
+                    description: `cart was added`,
+                  })
+            }
+            else{
+                toast({
+                    title: "Error",
+                    description: `kick undefind`,
+                  })
+            }
           return { success: true };
         } catch (error) {
           return { success: false, error: error as string };
@@ -96,8 +111,8 @@ const ProductDetailsImage: React.FC<React.HTMLAttributes<HTMLDivElement> & Props
                     <h1 className='text-2xl font-semibold text-gray_1'>{kick?.title}</h1>
                     <p className='text-xl font-semibold text-primary_1'>${kick?.price}</p>
                 </div>
-                {kick?.colors && kick?.sizes && <ProductDetailsForm
-                    defaultValues={{ color: kick?.colors[0], size: kick?.sizes[0] }}
+                {kick?.colors && kick?.sizes && kick?.gender && kick?.types && <ProductDetailsForm
+                    defaultValues={{ color: kick?.colors[0], size: kick?.sizes[0],gender:kick?.gender[0],type:kick?.types[0]}}
                     data={kick}
                     onSubmit={onSubmit}
                     schema={ProductFormDetails}

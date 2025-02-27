@@ -1,20 +1,8 @@
 import { Query } from "appwrite";
 import { databases } from "../appwriteIO/appwrite";
 import config from "../config";
-import { ProductFormType } from "../validation";
 import { Models } from "appwrite";
 import { ProductCardType, ProductCardTypeRes } from "@/types";
-
-export const addToCard = async (
-    kick: ProductFormType
-  ): Promise<{ success: boolean; error?: string }> => {
-    try {
-      alert(`color:${kick?.color}, size:${kick?.size}`)
-      return { success: true };
-    } catch (error) {
-      return { success: false, error: error as string };
-    }
-  };
 
 export const getAdvertisements = async (): Promise<{ success: boolean; error?: string, data?: Models.DocumentList<Models.Document> }> => {
     try {

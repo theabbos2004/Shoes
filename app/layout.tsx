@@ -3,6 +3,7 @@ import { Geist, Rubik } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@/context/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
+import { AuthProvider } from "@/context/auth-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,10 +30,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background dark:bg-gray_2`}
       >
-        <ThemeProvider>
-          {children}
-        </ThemeProvider>
-        <Toaster/>
+        <AuthProvider>
+          <ThemeProvider>
+            {children}
+            <Toaster/>
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -1,3 +1,5 @@
+import { Models } from "appwrite";
+import { ActionDispatch, Dispatch, SetStateAction } from "react";
 
 export interface screenType {
     width:number,
@@ -8,12 +10,29 @@ export interface NavType{
     route:string
 }
 export interface UserType{
-    id:string,
-    avatar:string,
+    accountId:string,
+    $id:string,
+    avatar?:string,
     name:string,
+    lastName:string,
     email:string,
     password:string,
-    reviews:string,
+    reviews?:ReviewsType[],
+    carts?:CartType[],
+    gender:productGender
+}
+export interface IAuthContextType{
+    user: UserType | null,
+    isLoading: boolean,
+    isAuthenticated: boolean,
+    setUser: Dispatch<SetStateAction<UserType | null>>,
+    setIsAuthenticated:  Dispatch<SetStateAction<boolean>>,
+    checkAuthUser:()=>Promise<{ success: boolean; error?: string, data?: Models.Document}>
+}
+export interface PromiseType{
+    success:boolean,
+    data?:any,
+    error?:string
 }
 export enum Colors { 
     Orange = "orange",
@@ -100,3 +119,22 @@ export interface AdvertisingCardType{
     image?: string;
     isActive?:boolean,
 };
+export interface CartType{
+    $collectionId:string,
+    $createdAt:string,
+    $databaseId:string,
+    $id:string,
+    $permissions:string[],
+    $updatedAt:string
+    user?:UserType,
+    color?:string,
+    gender?:productGender[],
+    price?:number,
+    size?:productSize,
+    status:{ title: string; main: string },
+    type?:productType,
+    kick?:ProductCardType,
+};
+export interface CartTypeRes extends Omit<CartType, 'status'> { 
+    status?: string;
+}
