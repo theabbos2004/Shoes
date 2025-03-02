@@ -16,18 +16,31 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import { ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
-import { ProductCardType } from "@/types";
+import { ProductCardType, UserType } from "@/types";
 import { Button } from "./ui/button";
 import { HeartIcon } from "lucide-react";
 import { ringClasses, bgClasses } from "@/hooks/ux";
+import { useRouter } from "next/navigation";
 interface Props<T extends FieldValues> {
   schema: ZodType<T>;
   defaultValues: T;
   data: ProductCardType | undefined;
   onSubmit: (data: T) => Promise<{ success: boolean; error?: string }>;
+  user:UserType| null
 }
 
 const ProductDetailsForm = <T extends FieldValues>({
@@ -35,7 +48,9 @@ const ProductDetailsForm = <T extends FieldValues>({
   defaultValues,
   data,
   onSubmit,
+  user
 }: Props<T>) => {
+  const router=useRouter()
   const form: UseFormReturn<T> = useForm({
     resolver: zodResolver(schema),
     defaultValues: defaultValues as DefaultValues<T>,
@@ -170,17 +185,53 @@ const ProductDetailsForm = <T extends FieldValues>({
           )}
         />
 
-        <div className="flex flex-col gap-2">
-          <div className="w-full flex gap-2">
-            <Button variant={"secondary"} className="w-full" type="submit">
-              Add to cart
-            </Button>
-            <Button variant={"secondary"}>
-              <HeartIcon />
-            </Button>
-          </div>
-          <Button variant={"primary"}>Buy it now</Button>
-        </div>
+        
+        {user ? 
+          (
+            <div className="flex flex-col gap-2">
+              <div className="w-full flex gap-2">
+                <Button variant={"secondary"} className="w-full" type="submit">
+                  Add to cart
+                </Button>
+                
+                <Button variant={"secondary"}>
+                  <HeartIcon />
+                </Button>
+              </div>
+              <Button variant={"primary"}>Buy it now</Button>
+            </div>
+          )
+          :(
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <div className="flex flex-col gap-2">
+                <div className="w-full flex gap-2">
+                  <Button variant={"secondary"} className="w-full" type="submit" disabled>
+                    Add to cart
+                  </Button>
+                  
+                  <Button variant={"secondary"} disabled>
+                    <HeartIcon />
+                  </Button>
+                </div>
+                <Button variant={"primary"} disabled>Buy it now</Button>
+              </div>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                You must register before doing this.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={()=>{router.push("/sign-in")}}>Register</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+            </AlertDialog>
+          )
+        }
       </form>
     </Form>
   );
