@@ -16,7 +16,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from './ui/hover-card';
 import { signOutAccount } from '@/lib/actions/user';
 const Header=()=> {
     const {theme,switchTheme}=useContext(ThemeContext)
-    const {isAuthenticated}=useUserContext()
+    const {isAuthenticated,user}=useUserContext()
     const [open, setOpen] = useState<boolean>(false);
     const router=useRouter()    
     const pathname=usePathname()
@@ -63,10 +63,17 @@ const Header=()=> {
                     onClick={()=>{switchTheme()}}
                 />
             )}
-            {pathname!=="/cart" && <ShoppingCart
-                className='size-6 cursor-pointer dark:text-gray-50'
-                onClick={()=>{router.push("/cart")}}
-            />}
+            {pathname!=="/cart" && (
+                <div className='relative flex'>
+                    <ShoppingCart
+                        className='size-6 cursor-pointer dark:text-gray-50'
+                        onClick={()=>{router.push("/cart")}}
+                    />
+                    {user?.carts?.length!==0 && (
+                        <div className=' self-end text-gray-50 h-3 bg-orange-400 rounded-xl text-sm flex justify-center items-center p-1 py-2'>{user?.carts?.length}</div>
+                        )}
+                </div>
+            )}
            { 
             isAuthenticated ? (
                 <HoverCard>

@@ -12,7 +12,7 @@ export default function ProductCard({ kick }: { kick: ProductCardType }) {
             {kick?.status && (
             <span
                 className={`absolute z-[1] top-0 left-0 text-xs font-semibold px-2 py-1 rounded-tl-md rounded-br-2xl ${
-                kick?.status?.title === "New" ? "bg-blue-500 text-white" : "bg-orange_1 text-gray_1"
+                kick?.status?.title === "new" ? "bg-blue-500 text-white" : "bg-orange_1 text-gray_1"
                 }`}
             >
                 {kick?.status?.main}

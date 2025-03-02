@@ -1,5 +1,5 @@
 import { Models } from "appwrite";
-import { ActionDispatch, Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 export interface screenType {
     width:number,
@@ -134,6 +134,17 @@ export interface CartType{
     status:{ title: string; main: string },
     type?:productType,
     kick?:ProductCardType,
+};
+
+export interface CheckoutType{
+    $collectionId:string,
+    $createdAt:string,
+    $databaseId:string,
+    $id:string,
+    $permissions:string[],
+    $updatedAt:string
+    user?:UserType,
+    carts?:CartType[]
 };
 export interface CartTypeRes extends Omit<CartType, 'status'> { 
     status?: string;

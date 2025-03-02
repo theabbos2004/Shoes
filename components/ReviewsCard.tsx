@@ -7,9 +7,9 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 export default function ReviewsCard({review}:{review:ReviewsType}) {
   return (
     <div className='bg-gray-50 flex flex-col rounded-xl overflow-hidden'>
-        <div className='flex justify-between p-5 gap-3'>
+        <div className='min-h-44 flex justify-between p-5 gap-3'>
             <div className='flex flex-col gap-2'>
-                <h1 className=' text-xl font-extrabold'>{review?.user?.name}</h1>
+                <h1 className=' text-xl font-extrabold'>{review?.user?.name||"User"}</h1>
                 <p className=' text-gray_1 line-clamp-2 min-h-14'>{review?.review}</p>
                 <div className=' flex gap-1'>
                     <ul className='flex flex-row gap-0'>

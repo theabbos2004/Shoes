@@ -9,6 +9,7 @@ const config = {
       collactionReviewsId: process.env.NEXT_PUBLIC_COLLACTION_REVIEWS_ID!,
       collactionAdvertisementsListingId: process.env.NEXT_PUBLIC_COLLACTION_ADVERTISEMENTS_Lisitng_ID!,
       collactionCartId: process.env.NEXT_PUBLIC_COLLACTION_CART_ID!,
+      collactionCheckoutsId: process.env.NEXT_PUBLIC_COLLACTION_CHECKOUTS_ID!,
     },
   };
   

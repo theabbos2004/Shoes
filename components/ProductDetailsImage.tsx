@@ -43,15 +43,15 @@ const ProductDetailsImage: React.FC<React.HTMLAttributes<HTMLDivElement> & Props
                     description: `cart was added`,
                   })
             }
-            else{
-                toast({
-                    title: "Error",
-                    description: `kick undefind`,
-                  })
-            }
-          return { success: true };
+            return { success: true };
         } catch (error) {
-          return { success: false, error: error as string };
+            toast({
+                title: "Error",
+                description: error instanceof Error ? error.message : error as string,
+                type:"foreground",
+                variant: "destructive",
+              })
+            return { success: false, error: error as string };
         }
       };
     return (

@@ -29,6 +29,22 @@ export const addToCart = async (
     }
   };
 
+export const deleteCart = async (
+    cart:CartType,
+  ): Promise<{ success: boolean, data?:Models.Document, error?: string }> => {
+    try {
+        const result = await databases.deleteDocument(
+            config.env.databaseId,
+            config.env.collactionCartId,
+            cart?.$id
+          );
+        if(!result) throw Error()
+        return { success: true };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : error as string };
+    }
+  };
+
 export const getCarts = async (): Promise<{ success: boolean, data?:{documents:CartType[],total:number} ,error?: string }> => {
     try {
         const result = await databases.listDocuments(

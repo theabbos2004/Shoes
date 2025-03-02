@@ -19,9 +19,11 @@ export default {
   			gray_3: 'var(--gray_3)',
   			orange_1: 'var(--orange_1)',
   			red_1: 'var(--red_1)',
+  			red_2: 'var(--red_2)',
   			brown_1: 'var(--brown_1)',
   			brown_2: 'var(--brown_2)',
-  			green_1: 'var(--green_1)'
+  			green_1: 'var(--green_1)',
+  			green_2: 'var(--green_2)'
   		},
   		container: {
   			padding: {

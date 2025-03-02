@@ -12,14 +12,16 @@ body {
 		--primary_1:rgba(74, 105, 226, 1);
 		--gray_1:rgba(35, 35, 33, 1);
 		--gray_2:rgba(210, 209, 211, 1);
-    --gray_4: #C9CCC6;
+    --gray_4: rgb(172, 172, 172);
     --gray_5: #677282;
 		--gray_3:#353336;
 		--orange_1:rgba(255, 165, 47, 1);
 		--red_1:#F08155;
+		--red_2:rgba(125, 28, 28, 1);
 		--brown_1:#925513;
 		--brown_2:#BB8056;
 		--green_1:#234D41;
+		--green_2:#259246;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
@@ -33,8 +35,8 @@ body {
     --muted-foreground: 215.4 16.3% 46.9%;
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 85.7% 97.3%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;

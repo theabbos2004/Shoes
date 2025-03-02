@@ -1,46 +1,75 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Bag from './Bag'
-import { Button } from './ui/button'
 import { useUserContext } from '@/context/auth-provider'
 import { CartType } from '@/types'
+import { client } from '@/lib/appwriteIO/appwrite'
+import config from '@/lib/config'
+import { ArchiveIcon } from 'lucide-react'
+import { createCheckout } from '@/lib/actions/checkout'
+import { useToast } from '@/hooks/use-toast'
+import { useRouter } from 'next/navigation'
+import OrderSummry from './OrderSummry'
 
 export default function CartProducts() {
     const {user}=useUserContext()
     const [select, setSelect] = useState<CartType[]>([])
-    const totalFunc=()=>{
-      let total=0
-      select?.map((cart)=>total+=cart.price as number)
-      return total
+    const {toast}=useToast()
+    const route=useRouter()
+    useEffect(() => {
+      const unSubscribe = client.subscribe([
+        `databases.${config.env.databaseId}.collections.${config.env.collactionUserId}.documents`,
+        `databases.${config.env.databaseId}.collections.${config.env.collactionCartId}.documents`,
+      ], () => {
+
+      });
+      return () => unSubscribe();
+  }, []);
+  const checkoutFunc=async ()=>{
+    try{
+      if(!user) throw Error("user not found")
+      const carts:string[]=[]
+      select.forEach((cart)=>carts?.push(cart?.$id))
+      const createCheckoutRes=await createCheckout(user,carts)
+      if(!createCheckoutRes.data) throw Error(createCheckoutRes?.error)
+      localStorage.setItem("checkoutId",createCheckoutRes?.data?.$id)
+      route.push("checkout")
     }
+    catch(error){
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : error as string,
+        type:"foreground",
+        variant: "destructive",
+      })
+    }
+  }
+  const setSelectFunc=(cart:CartType)=>{
+      setSelect((iState)=>{
+          const newState=[...iState]
+          if(!iState?.includes(cart)){
+              newState.push(cart)
+          }
+          else{
+              newState.splice(newState.findIndex((i)=>i===cart),1)
+          }
+          return newState
+      })
+    }
+
   return (
-    <div className='w-full flex flex-col py-5'>
+    <div className={`w-full flex flex-col py-5 gap-5`}>
         <div className="w-full grid lg:grid-cols-2 gap-5">
           {
             user && user?.carts?.map((cart,index)=>(
-            <Bag key={index} cart={cart} setSelect={setSelect}/>
+            <Bag key={index} cart={cart} setSelect={setSelectFunc} select={select}/>
           )) 
           }
+          {(!user?.carts?.length || !user) && (
+            <div className='px-10 gap-5 self-center bg-gray_1 text-gray-50 flex justify-center rounded-lg p-5'>There are no items in your cart  <ArchiveIcon/></div>
+            )}
         </div>
-        <div className="w-full flex flex-col justify-around gap-2 p-5">
-            <h1 className=" font-semibold text-2xl text-gray_1 capitalize">Order Summary</h1>
-            <div className="flex flex-col gap-1 text-gray_1">
-                <p className="flex justify-between">{select.length} ITEM 
-                  <span className='flex gap-2'>
-                    {
-                      select.length?(
-                        select?.map((cart,indx)=><span key={cart?.$id}>${cart?.price}  {indx!==select.length-1 && "+"}</span>)
-                      ):0
-                    }
-                  </span>
-                  </p>
-                <p className="flex justify-between">Delivery  <span>$6.99</span></p>
-                <p className="flex justify-between">Sales Tax  <span>-</span></p>
-                <p className="flex justify-between font-semibold">Total  <span>{totalFunc()}</span></p>
-            </div>
-            <Button variant={"secondary"} disabled={select.length?false:true}>Checkout</Button>
-            <p>User a promo code</p>
-        </div>
+        {user?.carts && <OrderSummry checkoutFunc={checkoutFunc} carts={select}/>}
     </div>
   )
 }

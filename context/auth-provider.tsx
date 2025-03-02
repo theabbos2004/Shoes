@@ -55,13 +55,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   },[])
 
-  useEffect(() => {
-    checkAuthUser();
-    const unSubscribe = client.subscribe(["account",`databases.${config.env.databaseId}.collections.${config.env.collactionUserId}.documents`,], () => {
-      checkAuthUser()
-    });
-    return () => unSubscribe();
-}, []);
+    useEffect(() => {
+      checkAuthUser();
+      const unSubscribe = client.subscribe([
+        "account",
+        `databases.${config.env.databaseId}.collections.${config.env.collactionUserId}.documents`,
+        `databases.${config.env.databaseId}.collections.${config.env.collactionCartId}.documents`,
+      ], () => {
+        checkAuthUser()
+      });
+      return () => unSubscribe();
+  }, []);
 
   const value = {
     user,

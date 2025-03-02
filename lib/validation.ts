@@ -9,6 +9,26 @@ export const ProductFormDetails = z.object({
 
 export type ProductFormType = z.infer<typeof ProductFormDetails>;
 
+export const CheckoOutFormDetails = z.object({
+  address:z.string().nonempty(),
+  phone:z.string().nonempty(),
+  agree:z.boolean(),
+  same:z.boolean(),
+  old:z.boolean(),
+}).refine((data)=>data.agree === true, {
+    message: "You must agree to the terms and conditions",
+    path: ["agree"],
+  })
+  .refine((data)=>data.same === true, {
+    message: "You must same to the terms and conditions",
+    path: ["same"],
+  })
+  .refine((data)=>data.old === true, {
+    message: "You must old to the terms and conditions",
+    path: ["old"],
+  })
+export type CheckOutFormType = z.infer<typeof CheckoOutFormDetails>;
+
 export const SignUpFormDetails = z.object({
   name:z.string().nonempty(),
   lastName:z.string().nonempty(),

@@ -5,19 +5,29 @@ import { Button } from './ui/button'
 import { getAdvertisements } from '@/lib/actions/product'
 import { ProductCardType } from '@/types'
 import { useRouter } from 'next/navigation'
+import { client } from '@/lib/appwriteIO/appwrite'
+import config from '@/lib/config'
 
 export default function  PosterImage() {
     const [kick,setKick]=useState<ProductCardType>()
     const [selectImage,setSelectImage]=useState<string>()
     const route=useRouter()
     useEffect(()=>{
-        (async ()=>{
+        const getAdvertisementsFunc=async ()=>{
             const advertisements = await getAdvertisements()
             const kick:ProductCardType=advertisements?.data?.documents[0]?.kick
             const selectImage:string=advertisements?.data?.documents[0]?.kick?.imagesUrl[0]
             setKick(kick)
             setSelectImage(selectImage)
-        })()
+        }
+        getAdvertisementsFunc()
+        const unSubscribe = client.subscribe([
+            "account",
+            `databases.${config.env.databaseId}.collections.${config.env.collactionAdvertisementsId}.documents`,
+          ], () => {
+            getAdvertisementsFunc()
+          });
+          return () => unSubscribe();
     },[])
   return (
     <div className='container lg:w-10/12 mx-auto'>    
@@ -28,6 +38,7 @@ export default function  PosterImage() {
                         src={selectImage}  
                         alt="image"
                         fill
+                        sizes=""
                         className="object-cover"
                         priority
                     />

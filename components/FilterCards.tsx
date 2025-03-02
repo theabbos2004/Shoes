@@ -11,6 +11,8 @@ import setItemInBox from '@/hooks/setItemInBox'
 import PaginationUI from './Pagination'
 import FilterProducts from './FilterProductsForm'
 import { getKicks } from '@/lib/actions/product'
+import { client } from '@/lib/appwriteIO/appwrite'
+import config from '@/lib/config'
 
 export default function FilterCards() {
     const {screen}=useContext(ThemeContext)
@@ -33,7 +35,16 @@ export default function FilterCards() {
         }
     },[filterKicks,kicks])
     useEffect(()=>{
-        getKicksFunc(screen)
+        if(screen?.width){
+            getKicksFunc(screen)
+        }
+        const unSubscribe = client.subscribe([
+            "account",
+            `databases.${config.env.databaseId}.collections.${config.env.collactionKickId}.documents`,
+        ], () => {
+            getKicksFunc(screen)
+        })
+        return () => unSubscribe();
     },[screen,getKicksFunc])
     const [api, setApi] = React.useState<CarouselApi>()
     const [current, setCurrent] = React.useState(0)

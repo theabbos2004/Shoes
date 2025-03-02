@@ -7,20 +7,31 @@ import ReviewsCard from './ReviewsCard'
 import { ThemeContext } from '@/context/theme-provider'
 import { getReviews } from '@/lib/actions/reviews'
 import { Query } from 'appwrite'
+import { client } from '@/lib/appwriteIO/appwrite'
+import config from '@/lib/config'
 
 export default function Reviews() {
     const {screen}=useContext(ThemeContext)
     const [reviews,setReviews]=useState<ReviewsType[]>()
     useEffect(()=>{
-        if(screen?.width){
-            (async ()=>{
-                const reviewsRes=await getReviews({condition:[Query.greaterThanEqual("star", 3)]})
-                if(reviewsRes?.success){
-                    const number=screen?.width>1024 ? 3  : 2
-                    setReviews(reviewsRes?.data?.documents.slice(0,number))
-                }
-            })()
+        const getReviewsFunc=async()=>{
+            const reviewsRes=await getReviews({condition:[Query.greaterThanEqual("star", 3)]})
+            if(reviewsRes?.success){
+                const number=screen?.width>1024 ? 3  : 2
+                setReviews(reviewsRes?.data?.documents.slice(0,number))
+            }
         }
+        getReviewsFunc()
+        if(screen?.width){
+            getReviewsFunc()
+        }
+        const unSubscribe = client.subscribe([
+            "account",
+            `databases.${config.env.databaseId}.collections.${config.env.collactionReviewsId}.documents`,
+        ], () => {
+            getReviewsFunc()
+        })
+        return () => unSubscribe();
     },[screen?.width])
   return (
     <section>

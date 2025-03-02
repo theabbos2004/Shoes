@@ -7,6 +7,8 @@ import TitleComponent from './TitleComponent';
 import { getKicks } from '@/lib/actions/product';
 import { ThemeContext } from '@/context/theme-provider';
 import { useRouter } from 'next/navigation';
+import { client } from '@/lib/appwriteIO/appwrite';
+import config from '@/lib/config';
 
 export default function NewDrops() {
     const [kicks,setKicks]=useState<ProductCardType[]>()
@@ -23,6 +25,13 @@ export default function NewDrops() {
         if(screen?.width){
             getKicksApp(screen)
         }
+        const unSubscribe = client.subscribe([
+            "account",
+            `databases.${config.env.databaseId}.collections.${config.env.collactionKickId}.documents`,
+        ], () => {
+            getKicksApp(screen)
+        })
+        return () => unSubscribe();
     },[screen,getKicksApp])
   return (
     <section className='container mx-auto'>
