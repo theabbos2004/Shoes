@@ -56,7 +56,7 @@ export default function Page() {
       }
     catch (error) {
       toast({
-        title: 'Success',
+        title: 'Error',
         description: error instanceof Error ? error.message : error as string,
       })
       return {success:false, error : error instanceof Error ? error.message : error as string}

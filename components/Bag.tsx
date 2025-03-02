@@ -51,6 +51,7 @@ const Bag = React.forwardRef<HTMLDivElement, Partial<BagType>>(
                     className={`bg-gray_2 text-primary_1 size-5 font-semibold ${variant==="checkout" && "hidden"}`}
                     checked={select && cart && select.some(selectCart => cart.$id === selectCart?.$id)}
                     onCheckedChange={()=>cart && setSelect && setSelect(cart)}
+                    onClick={(e)=>e.stopPropagation()}
                 />
             </div>
             <div className="flex gap-5">
