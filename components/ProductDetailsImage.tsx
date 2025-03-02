@@ -116,6 +116,7 @@ const ProductDetailsImage: React.FC<React.HTMLAttributes<HTMLDivElement> & Props
                     data={kick}
                     onSubmit={onSubmit}
                     schema={ProductFormDetails}
+                    user={user}
                 />}
                 <div>
                     <h1 className=' text-xl font-bold uppercase pb-2'>About the product</h1>

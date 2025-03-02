@@ -4,7 +4,6 @@ import "./globals.css";
 import ThemeProvider from "@/context/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/context/auth-provider";
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -27,6 +26,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" type="image/svg" href={"/images/haederImage.png"} />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background dark:bg-gray_2`}
       >
