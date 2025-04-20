@@ -27,8 +27,6 @@ const Header=()=> {
         try{
             const signOutAccountRes=await signOutAccount()
             if(signOutAccountRes?.error) throw Error(signOutAccountRes?.error)
-            const checkAuthUserRes=await checkAuthUser()
-            if(checkAuthUserRes?.error) throw Error(checkAuthUserRes?.error)
             router.push("/")
         }
         catch(error){
