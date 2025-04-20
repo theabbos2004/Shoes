@@ -17,7 +17,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collap
 import { useToast } from '@/hooks/use-toast';
 const Header=()=> {
     const {theme,switchTheme}=useContext(ThemeContext)
-    const {isAuthenticated,user,checkAuthUser}=useUserContext()
+    const {isAuthenticated,user}=useUserContext()
     const [open, setOpen] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const router=useRouter()    
