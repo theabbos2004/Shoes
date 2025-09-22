@@ -6,9 +6,9 @@ const Layout = ({children}:{children:ReactNode}) => {
   return (
     <div className='flex flex-col'>
         <Header/>
-        <div className='pt-16'>
+        <main className='pt-16'>
           {children}
-        </div>
+        </main>
         <Footer/>
     </div>
   )
